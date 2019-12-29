@@ -29,9 +29,12 @@ class Book(models.Model):
     # Genre class has already been defined so we can specify the object above.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
 
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.title
+    def display_genre(self):
+        """Because one book can have multiple genres, creates a string with the first 3 Genres.
+         This is required to display genre in Admin."""
+        return ', '.join([genre.name for genre in self.genre.all()[:3]])
+
+    display_genre.short_description = 'Genre'
 
     # get_absolute_url() returns a URL that can be used to access a detail record for this model
     # for this to work we will have to define a URL mapping that has the name book-detail,
@@ -39,6 +42,10 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.title
 
 
 class BookInstance(models.Model):
@@ -49,7 +56,7 @@ class BookInstance(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True) 
-    imprint = models.CharField(max_length=200, help_text='version details of the book')
+    imprint = models.CharField(max_length=200, help_text='version details of a book')
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
