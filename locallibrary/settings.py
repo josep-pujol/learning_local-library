@@ -130,3 +130,6 @@ STATIC_URL = '/static/'
 # (Default redirects to /accounts/profile/)
 
 LOGIN_REDIRECT_URL = '/'
+
+# Show emails in console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
