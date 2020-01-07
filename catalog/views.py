@@ -1,6 +1,6 @@
 from catalog.models import Book, Author, BookInstance, Genre
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.views import generic
 
@@ -13,6 +13,7 @@ def index(request):
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
     num_genres = Genre.objects.all().count()
+    # Below line as learning challenge
     num_books_w_z = Book.objects.filter(title__contains='z').count()
 
     # Available books (status = 'a')
@@ -23,10 +24,9 @@ def index(request):
     num_authors = Author.objects.count()
 
     # Number of visits to this view, as counted in the session variable.
-    print('\nbefore', request.session.keys())
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
-    print('after:', request.session.keys())
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -68,3 +68,14 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+
+# testing/checking permissions also tests for authentication
+class BorrowedBookInstances(PermissionRequiredMixin, generic.ListView):
+    model = BookInstance
+    permission_required = 'catalog.librarian' # TODO
+    template_name = 'catalog/borrowed_book_instances.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
