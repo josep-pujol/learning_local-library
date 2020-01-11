@@ -71,7 +71,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
 
 
 # testing/checking permissions also tests for authentication
-class BorrowedBookInstances(PermissionRequiredMixin, generic.ListView):
+class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
     model = BookInstance
     permission_required = 'catalog.librarian' # TODO
     template_name = 'catalog/borrowed_book_instances.html'
