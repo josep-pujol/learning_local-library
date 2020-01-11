@@ -1,10 +1,12 @@
+from datetime import date
+
 from django.db import models
 # Used to generate URLs by reversing the URL patterns
 from django.urls import reverse
 # Required for unique book instances
 import uuid
 from django.contrib.auth.models import User
-from datetime import date
+
 
 
 class Genre(models.Model):
@@ -46,6 +48,9 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
+
+    class Meta:
+        ordering = ['title']
 
     def __str__(self):
         """String for representing the Model object."""
