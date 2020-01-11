@@ -19,6 +19,9 @@
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'books' %}">All books</a></li>
             <li><a href="{% url 'authors' %}">All authors</a></li>
+          </ul>
+
+          <ul class="sidebar-nav">
             {% if user.is_authenticated %}
               <li>User: {{ user.get_username }}</li>
               <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
@@ -27,6 +30,14 @@
               <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
             {% endif %} 
           </ul>
+
+          {% if perms.catalog.librarian %}
+          <hr />
+          <ul class="sidebar-nav">
+            <li>Staff</li>
+            <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
+          </ul>
+          {% endif %}
 
         {% endblock %}
       </div>

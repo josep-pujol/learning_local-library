@@ -8,7 +8,6 @@ import uuid
 from django.contrib.auth.models import User
 
 
-
 class Genre(models.Model):
     """Model representing a book genre."""
     name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
