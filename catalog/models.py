@@ -59,7 +59,7 @@ class Book(models.Model):
 class BookInstance(models.Model):
     # BookInstance represents a specific copy of a book that someone might borrow, and includes
     # information about whether the copy is available, what date it is expected back, "imprint"
-    #  or version details, and a unique id for the book in the library.
+    # or version details, and a unique id for the book in the library.
 
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')

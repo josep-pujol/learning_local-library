@@ -129,18 +129,21 @@ def renew_book_librarian(request, pk):
     return render(request, 'catalog/book_renew_librarian.html', context)
 
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
+    permission_required = 'catalog.librarian'
     fields = '__all__'
     initial = {'date_of_death': '05/01/2018'}
 
 
-class AuthorUpdate(UpdateView):
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     model = Author
+    permission_required = 'catalog.librarian'
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
 
 
-class AuthorDelete(DeleteView):
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
+    permission_required = 'catalog.librarian'
     success_url = reverse_lazy('authors')
 
