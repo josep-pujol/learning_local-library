@@ -131,19 +131,36 @@ def renew_book_librarian(request, pk):
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
-    permission_required = 'catalog.librarian'
     fields = '__all__'
     initial = {'date_of_death': '05/01/2018'}
+    permission_required = 'catalog.librarian'
 
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
     model = Author
-    permission_required = 'catalog.librarian'
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    permission_required = 'catalog.librarian'
 
 
 class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
-    permission_required = 'catalog.librarian'
     success_url = reverse_lazy('authors')
+    permission_required = 'catalog.librarian'
 
+
+class BookCreate(PermissionRequiredMixin, CreateView):
+    model = Book
+    fields = '__all__'
+    permission_required = 'catalog.librarian'
+
+
+class BookUpdate(PermissionRequiredMixin, UpdateView):
+    model = Book
+    fields = '__all__'
+    permission_required = 'catalog.librarian'
+
+
+class BookDelete(PermissionRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
+    permission_required = 'catalog.librarian'
